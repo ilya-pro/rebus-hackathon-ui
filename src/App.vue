@@ -88,10 +88,9 @@
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld';
-
 import Drawer from "./components/Drawer";
 import Tabs from "./components/Tabs";
+import {LOAD_USER_DATA} from "./store/mutation-types";
 export default {
   name: 'App',
 
@@ -122,6 +121,7 @@ export default {
     if (!this.$store.state.token) {
       this.$router.push('/login');
     }
+    this.$store.dispatch(LOAD_USER_DATA);
   },
   methods: {
     clickNewTender() {
