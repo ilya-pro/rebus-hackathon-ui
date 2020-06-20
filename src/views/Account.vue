@@ -3,6 +3,7 @@
     <v-toolbar flat color="primary" dark>
       <v-toolbar-title>Профиль</v-toolbar-title>
     </v-toolbar>
+    <!--token= {{ $store.state.token }}-->
     <v-tabs vertical>
       <v-tab>Личная информация</v-tab>
       <v-tab>Активность</v-tab>
@@ -272,23 +273,39 @@ export default {
       });
     },
     getProfile() {
-      const filter = "";
-      axios
-        .get(API_BASE_URL + "health/" + filter)
+      const config = {
+        method: 'get',
+        url: API_BASE_URL + 'users/profile/',
+        headers: { 'Authorization': 'Bearer '+ this.$store.state.token }
+      }
+      //const filter = "";
+      //axios
+        //.get(API_BASE_URL + "users/profile/" + filter)
+        /*.request({
+          url: 'users/profile/',
+          method: 'get',
+          baseURL: API_BASE_URL,
+          headers: {
+            'Authorization': 'Bearer '+ this.$store.state.token
+          }
+        })*/
+      axios(config)
         .then(response => {
-          console.log("roger that", response.data);
+          console.log("profile", response.data);
           //     this.profile = response.data;
           this.profile = {
-            name: "Иванов Иван Иванович",
-            division: "Сектор развития цифровых продуктов",
-            position: "Разработчик",
+            //name: "Иванов Иван Иванович",
+            name: [response.data.last_name, response.data.first_name, response.data.patronymic].join(' '),
+            division: response.data.department,
+            position: response.data.position,
+            // TODO
             avatar:
               "https://st.kp.yandex.net/images/actor_iphone/iphone360_92072.jpg",
-            email: "ivanov@gpb.ru",
-            phone: "+71234567890",
-            workphone: "12345",
-            birthday: "21.01.1990",
-            city: "Москва"
+            email: response.data.email,
+            phone: response.data.phone,
+            workphone: response.data.internal_phone,
+            birthday: response.data.birthday,//"21.01.1990",
+            city: response.data.city
           };
           this.rating = 4;
           this.positions = ["Разработчик", "Кассир", "Экономист"];
