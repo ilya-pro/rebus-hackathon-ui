@@ -78,11 +78,16 @@ export default {
 
   components: {
     Drawer
-    //HelloWorld,
   },
 
   data: () => ({
     //
   }),
+
+  mounted() {
+    // TODO debug only
+    window.router = this.$router;
+    console.log('router', window.router);
+  }
 };
 </script>

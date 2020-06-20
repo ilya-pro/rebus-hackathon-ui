@@ -8,6 +8,7 @@
 <script>
 // @ is an alias to /src
 import axios from 'axios'
+import {API_BASE_URL} from "../utils/axios-helper";
 
 export default {
   name: 'Home',
@@ -26,7 +27,7 @@ export default {
     getHealth() {
       const filter = '';
       axios
-        .get('https://rebus-leadersofdigital-2020.herokuapp.com/api/health/' + filter)
+        .get(API_BASE_URL + 'health/' + filter)
         .then(response => {
           console.log('roger that', response.data);
           this.health = response.data;

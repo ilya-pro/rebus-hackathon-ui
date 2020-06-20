@@ -25,7 +25,8 @@
 
             <v-divider></v-divider>
 
-            <v-list-item>
+            <v-list-item
+                    @click="clickExit()">
                 <v-list-item-icon>
                     <v-icon>mdi-exit-to-app</v-icon>
                 </v-list-item-icon>
@@ -39,15 +40,27 @@
 </template>
 
 <script>
+    import {AUTH_LOGOUT} from '../store/mutation-types'
+
     export default {
         name: "Drawer",
         data: () => ({
+            // пункты навигаии
             items: [
                 {id: 'account', title: 'Главная', icon: 'mdi-star', path: '/'},
                 {id: 'proposals', title: 'Предложения', icon: 'mdi-lightbulb', path: '/proposals'},
                 {id: 'account', title: 'Аккаунт', icon: 'mdi-account', path: '/account'}
             ],
-        })
+        }),
+        methods: {
+            clickExit() {
+                console.log('exit');
+                this.$store.dispatch(AUTH_LOGOUT).then(() => {
+                    console.log('exit AUTH_LOGOUT');
+                    this.$router.push('/login')
+                })
+            }
+        }
     }
 </script>
 
