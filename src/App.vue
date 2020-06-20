@@ -48,6 +48,7 @@
     <!-- header -->
     <v-app-bar app
                >
+      <img width="200" height="40" src="./assets/logo_gazprombank.svg" >
       Заголовок {{ $route.name }}
     </v-app-bar>
 
