@@ -65,6 +65,7 @@
     <v-footer app>
       <!-- -->
     </v-footer>
+    <notifications group="notifications" />
   </v-app>
 </template>
 
