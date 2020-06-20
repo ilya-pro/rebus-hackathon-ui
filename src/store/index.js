@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
-import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR} from "./mutation-types";
+import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT} from "./mutation-types";
 import {API_BASE_URL} from '../utils/axios-helper';
 
 Vue.use(Vuex)
@@ -34,6 +34,7 @@ export default new Vuex.Store({
   },
   // обновляет state через вызов mutations
   actions: {
+    // запрос подключения
     [AUTH_REQUEST]: ({commit, dispatch}, user) => {
       console.log('A   AUTH_REQUEST', commit, dispatch, user);
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
@@ -58,6 +59,16 @@ export default new Vuex.Store({
               localStorage.removeItem('user-token');
               reject(err);
             })
+      })
+    },
+    // выход
+    [AUTH_LOGOUT]: ({commit/*, dispatch*/}) => {
+      return new Promise((resolve/*, reject*/) => {
+        console.log('AUTH_LOGOUT done');
+        commit(AUTH_LOGOUT);
+        // удаляем пользовательский токен из localstorage
+        localStorage.removeItem('user-token');
+        resolve();
       })
     }
   },

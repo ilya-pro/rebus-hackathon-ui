@@ -15,3 +15,9 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
  * @type {string}
  */
 export const AUTH_ERROR = 'AUTH_ERROR';
+
+/**
+ * Выход
+ * @type {string}
+ */
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
