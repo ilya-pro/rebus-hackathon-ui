@@ -59,10 +59,13 @@
               @click="clickNewTender();"
               color="primary"
       >Есть предложение</v-btn>
-      <v-avatar class="ma-3" size="40" tile
+      <v-avatar class="ma-3" size="40"
+                tile
                 @click="clickAvatar()"
-                style="cursor: pointer">
-        <v-img :src="$store.state.user.avatarSmall"></v-img>
+                style="cursor: pointer"
+      >
+        <v-icon v-if="!$store.state.user.avatarSmall" dark>mdi-account</v-icon>
+        <v-img v-if="$store.state.user.avatarSmall" :src="$store.state.user.avatarSmall"></v-img>
       </v-avatar>
     </v-app-bar>
 
@@ -113,6 +116,12 @@ export default {
     // TODO debug only
     window.router = this.$router;
     console.log('router', window.router);
+    //console.log('ТОКЕН', this.$store.state.token);
+
+    // если токена нет, выходим на страницу логина
+    if (!this.$store.state.token) {
+      this.$router.push('/login');
+    }
   },
   methods: {
     clickNewTender() {
