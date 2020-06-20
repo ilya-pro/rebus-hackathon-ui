@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
-import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT} from "./mutation-types";
+import {AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT,
+  LOAD_USER_DATA, SET_USER_DATA} from "./mutation-types";
 import {API_BASE_URL} from '../utils/axios-helper';
 
 Vue.use(Vuex)
@@ -36,6 +37,12 @@ export default new Vuex.Store({
     [AUTH_ERROR]: (state) => {
       state.status = 'error'
     },
+    [SET_USER_DATA]: (state, userData) => {
+      console.log('userData 3', userData);
+      state.user = {
+        avatarSmall: userData.little_avatar
+      }
+    }
   },
   // обновляет state через вызов mutations
   actions: {
@@ -75,6 +82,18 @@ export default new Vuex.Store({
         localStorage.removeItem('user-token');
         resolve();
       })
+    },
+    // загрузка данных пользователя
+    [LOAD_USER_DATA]: (context) => {
+      const config = {
+        method: 'get',
+        url: API_BASE_URL + 'users/profile/',
+        headers: { 'Authorization': 'Bearer '+ context.state.token }
+      }
+      axios(config).then(response => {
+        console.log('LOAD_USER_DATA  loaded', response);
+        context.commit(SET_USER_DATA, response.data)
+      });
     }
   },
   // вычислимые свойства состояния
