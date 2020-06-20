@@ -14,10 +14,20 @@
       <v-spacer></v-spacer>
       <Tabs class="hidden-sm-and-down"
               :items="items"/>
-      <v-btn
-              @click="clickNewTender();"
+      <!--кнопка для широкого экрана-->
+      <v-btn class="hidden-sm-and-down"
+              @click="clickNewTender()"
               color="primary"
       >Есть предложение</v-btn>
+      <!-- кнопка для мобильного экрана-->
+      <v-btn class="hidden-md-and-up"
+             fab
+             small
+             @click="clickNewTender()"
+             color="primary"
+      >
+        <v-icon dark>mdi-plus</v-icon>
+      </v-btn>
       <v-avatar class="ma-3" size="40"
                 tile
                 @click="clickAvatar()"
