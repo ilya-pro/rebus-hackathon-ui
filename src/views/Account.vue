@@ -5,16 +5,16 @@
     </v-toolbar>
     <v-tabs vertical>
       <v-tab>
-        <v-icon left>mdi-account</v-icon>Личная информация
+        Личная информация
       </v-tab>
       <v-tab>
-        <v-icon left>mdi-history</v-icon>Активность
+       Активность 
       </v-tab>
       <v-tab>
-        <v-icon left>mdi-lock</v-icon>Проекты
+        Проекты
       </v-tab>
       <v-tab>
-        <v-icon left>mdi-access-point</v-icon>Уведомления
+        Уведомления
       </v-tab>
       <v-tab-item>
         <v-row align="start" justify="start" style="width: 1000px">
@@ -27,7 +27,9 @@
               <v-card-text>
                 <p>{{ profile.position }}</p>
                 <p>{{ profile.division }}</p>
-                <p><b>Контактная информация</b></p>
+                <p>
+                  <b>Контактная информация</b>
+                </p>
                 <p>
                   <v-icon>mdi-map-marker</v-icon>
                   {{ profile.city }}
@@ -108,8 +110,49 @@
           </v-card-text>
         </v-card>
       </v-tab-item>
-      <v-tab-item></v-tab-item>
-
+      <v-tab-item>
+        <v-card max-width="800" align="center">
+          <v-card-text>
+            <v-timeline>
+              <v-container v-for="activity in activities" :key="activity.message">
+                <v-timeline-item
+                  v-if="activity.changed>0"
+                  color="green lighten-1"
+                  fill-dot
+                  right
+                  small
+                >
+                  <v-card>
+                    <v-card-title class="green lighten-1">Зачислено баллов: {{ activity.changed }}</v-card-title>
+                    <v-card-subtitle
+                      class="green lighten-2"
+                    >Накоплено баллов: {{ activity.summary }}</v-card-subtitle>
+                    <v-card-text class="green lighten-3">{{ activity.title }}</v-card-text>
+                  </v-card>
+                </v-timeline-item>
+                <v-timeline-item
+                  v-if="activity.changed<0"
+                  color="red lighten-1"
+                  fill-dot
+                  left
+                  small
+                >
+                  <v-card>
+                    <v-card-title
+                      class="red lighten-1"
+                    >Зачислено баллов: {{ Math.abs(activity.changed) }}</v-card-title>
+                    <v-card-subtitle class="red lighten-2">Накоплено баллов: {{ activity.summary }}</v-card-subtitle>
+                    <v-card-text class="red lighten-3">{{ activity.title }}</v-card-text>
+                  </v-card>
+                </v-timeline-item>
+              </v-container>
+            </v-timeline>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn @click="loadActivities();" color="primary">Загрузить еще</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-tab-item>
       <v-tab-item></v-tab-item>
 
       <v-tab-item></v-tab-item>
@@ -120,6 +163,7 @@
 // @ is an alias to /src
 import axios from "axios";
 import Vue from "vue";
+import { API_BASE_URL } from "../utils/axios-helper";
 
 export default {
   name: "Account",
@@ -137,6 +181,7 @@ export default {
         birthday: "",
         city: ""
       },
+      activities: [{ summary: 0, changed: 0, title: "" }],
       rating: 0,
       editing: false,
       valid: false,
@@ -164,13 +209,18 @@ export default {
         position: "top center"
       });
     },
+    loadActivities() {
+      Vue.notify({
+        type: "success",
+        group: "notifications",
+        title: "Загрузка активностей выполнена",
+        position: "top center"
+      });
+    },
     getProfile() {
       const filter = "";
       axios
-        .get(
-          "https://rebus-leadersofdigital-2020.herokuapp.com/api/health/" +
-            filter
-        )
+        .get(API_BASE_URL + "health/" + filter)
         .then(response => {
           console.log("roger that", response.data);
           //     this.profile = response.data;
@@ -187,12 +237,26 @@ export default {
             city: "Москва"
           };
           this.rating = 4;
-          (this.positions = ["Разработчик", "Кассир", "Экономист"]),
-            (this.divisions = [
-              "Департамент",
-              "Служба",
-              "Сектор развития цифровых продуктов"
-            ]);
+          this.positions = ["Разработчик", "Кассир", "Экономист"];
+          this.divisions = [
+            "Департамент",
+            "Служба",
+            "Сектор развития цифровых продуктов"
+          ];
+          this.activities = [
+            {
+              summary: 200,
+              changed: -800,
+              title: "Получены билеты в кино за баллы"
+            },
+            {
+              summary: 1000,
+              changed: 400,
+              title: "За участие в реализации проекта 1"
+            },
+            { summary: 600, changed: 500, title: "Идея вошла в ТОП-10" },
+            { summary: 100, changed: 100, title: "За регистрацию на портале" }
+          ];
         })
         .catch(error => {
           console.log(error);
