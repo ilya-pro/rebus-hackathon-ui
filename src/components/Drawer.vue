@@ -1,14 +1,12 @@
 <template>
-    <!--
-    color="blue"-->
     <v-navigation-drawer app
-                         :mini-variant="true"
-                         :expand-on-hover="true" >
+                         :disable-resize-watcher="true"
+                         :value="value"
+                         >
         <v-list
                 dense
                 nav
                 class="py-0" >
-            <!--link-->
             <v-list-item
                     v-for="item in items"
                     :key="item.id"
@@ -45,16 +43,16 @@
     export default {
         name: "Drawer",
         props: {
+            // для работы v-model снаружи, отображать панель или нет
+            value: {
+                type: Boolean,
+                required: true
+            },
             // пункты навигаии
             items: Array
         },
         data: () => ({
-            // пункты навигаии
-            /*items: [
-                {id: 'account', title: 'Главная', icon: 'mdi-star', path: '/'},
-                {id: 'proposals', title: 'Предложения', icon: 'mdi-lightbulb', path: '/proposals'},
-                {id: 'account', title: 'Аккаунт', icon: 'mdi-account', path: '/account'}
-            ],*/
+
         }),
         methods: {
             clickExit() {
