@@ -78,7 +78,6 @@ export default {
 
   components: {
     Drawer
-    //HelloWorld,
   },
 
   data: () => ({
