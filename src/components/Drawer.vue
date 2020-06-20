@@ -42,6 +42,7 @@
     export default {
         name: "Drawer",
         data: () => ({
+            // пункты навигаии
             items: [
                 {id: 'account', title: 'Главная', icon: 'mdi-star', path: '/'},
                 {id: 'proposals', title: 'Предложения', icon: 'mdi-lightbulb', path: '/proposals'},

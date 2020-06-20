@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Proposals from '../views/Proposals'
 import ProposalPage from '../views/ProposalPage'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -11,6 +12,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/proposals',
