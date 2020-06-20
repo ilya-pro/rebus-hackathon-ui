@@ -4,6 +4,8 @@ import Home from '../views/Home'
 import Proposals from '../views/Proposals'
 import ProposalPage from '../views/ProposalPage'
 import Login from '../views/Login'
+import Projects from "../views/Projects";
+import Shop from "../views/Shop";
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ Vue.use(VueRouter)
     path: '/proposals/:id',
     name: 'ProposalPage',
     component: ProposalPage
+  },
+  {
+    path: '/projects',
+    name: 'Projects',
+    component: Projects
+  },
+  {
+    path: '/shop',
+    name: 'Shop',
+    component: Shop
   },
   {
     path: '/account',

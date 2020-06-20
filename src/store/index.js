@@ -13,7 +13,12 @@ export default new Vuex.Store({
     status: '',
 
     // токен аутентификации инициализируем из LS, если есть
-    token: localStorage.getItem('user-token') || ''
+    token: localStorage.getItem('user-token') || '',
+
+    user: {
+      avatarSmall: ''
+    }
+
   },
   /*
     фиксация и отслеживание изменений state

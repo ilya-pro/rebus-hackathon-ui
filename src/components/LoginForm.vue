@@ -56,7 +56,7 @@
                 this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
                     console.log('login OK');
                     // переход на главную страницу
-                    this.$router.push('/')
+                    this.$router.push('/proposals')
                 })
             }
         }
