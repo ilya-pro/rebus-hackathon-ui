@@ -4,18 +4,10 @@
       <v-toolbar-title>Профиль</v-toolbar-title>
     </v-toolbar>
     <v-tabs vertical>
-      <v-tab>
-        Личная информация
-      </v-tab>
-      <v-tab>
-       Активность 
-      </v-tab>
-      <v-tab>
-        Проекты
-      </v-tab>
-      <v-tab>
-        Уведомления
-      </v-tab>
+      <v-tab>Личная информация</v-tab>
+      <v-tab>Активность</v-tab>
+      <v-tab>Проекты</v-tab>
+      <v-tab>Уведомления</v-tab>
       <v-tab-item>
         <v-row align="start" justify="start" style="width: 1000px">
           <v-col>
@@ -153,7 +145,27 @@
           </v-card-actions>
         </v-card>
       </v-tab-item>
-      <v-tab-item></v-tab-item>
+      <v-tab-item>
+        <v-card>
+          <v-card-title>
+            Мои проекты
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="projectTable.search"
+              append-icon="mdi-magnify"
+              label="Поиск"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table
+            :headers="projectTable.headers"
+            :items="projectTable.projects"
+            :search="projectTable.search"
+            @click:row="goToProject"
+          ></v-data-table>
+        </v-card>
+      </v-tab-item>
 
       <v-tab-item></v-tab-item>
     </v-tabs>
@@ -186,7 +198,40 @@ export default {
       editing: false,
       valid: false,
       positions: [],
-      divisions: []
+      divisions: [],
+      projectTable: {
+        search: "",
+        headers: [
+          { text: "Проект", value: "name" },
+          { text: "Начало проекта", value: "started" },
+          { text: "Окончание проекта", value: "finished" },
+          { text: "Статус работ", value: "state" },
+          { text: "Участники", value: "users" }
+        ],
+        projects: [
+          {
+            name: "Проект 3",
+            started: "15.05.2020",
+            finished: "",
+            state: "Приостановлен",
+            users: "Иванов, Петров"
+          },
+          {
+            name: "Проект 2",
+            started: "20.01.2020",
+            finished: "",
+            state: "В работе",
+            users: "Петров, Сидоров"
+          },
+          {
+            name: "Проект 1",
+            started: "20.01.2019",
+            finished: "21.09.2019",
+            state: "Завершен",
+            users: "Петров, Васильев, Сергеев"
+          }
+        ]
+      }
     };
   },
   mounted() {
@@ -214,6 +259,15 @@ export default {
         type: "success",
         group: "notifications",
         title: "Загрузка активностей выполнена",
+        position: "top center"
+      });
+    },
+    goToProject(event) {
+      console.log(event);
+      Vue.notify({
+        type: "error",
+        group: "notifications",
+        title: "Отсутствует страница карточки проекта",
         position: "top center"
       });
     },
