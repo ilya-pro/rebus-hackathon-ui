@@ -95,6 +95,8 @@ export default {
   methods: {
     clickNewTender() {
       console.log('clickNewTender');
+      // переход к профилю
+      this.$router.push('/proposals/new')
     },
     clickAvatar() {
       // переход к профилю

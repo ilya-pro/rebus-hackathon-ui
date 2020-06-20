@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home'
+//import Home from '../views/Home'
 import Proposals from '../views/Proposals'
 import ProposalPage from '../views/ProposalPage'
 import Login from '../views/Login'
@@ -10,23 +10,25 @@ import Shop from "../views/Shop";
 Vue.use(VueRouter)
 
   const routes = [
-  {
+  /*{
     path: '/',
     name: 'Home',
     component: Home
-  },
+  },*/
   {
     path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/proposals',
+    path: '/',
+    alias: ['/proposals'],
     name: 'proposals',
     component: Proposals
   },
   {
     path: '/proposals/:id',
+    alias: ['/proposals/new'],
     name: 'ProposalPage',
     component: ProposalPage
   },
