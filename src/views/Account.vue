@@ -298,9 +298,7 @@ export default {
             name: [response.data.last_name, response.data.first_name, response.data.patronymic].join(' '),
             division: response.data.department,
             position: response.data.position,
-            // TODO
-            avatar:
-              "https://st.kp.yandex.net/images/actor_iphone/iphone360_92072.jpg",
+            avatar: response.data.photo,
             email: response.data.email,
             phone: response.data.phone,
             workphone: response.data.internal_phone,

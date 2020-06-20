@@ -6,6 +6,7 @@
                     v-model="email"
                     label="Ваш e-mail"
                     :rules="emailRules"
+                    @keydown.enter="loginClick()"
             ></v-text-field>
             <v-text-field
                     v-model="password"
@@ -13,6 +14,7 @@
                     :rules="passwordRules"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showPassword ? 'text' : 'password'"
+                    @keydown.enter="loginClick()"
                     @click:append="showPassword = !showPassword"
             ></v-text-field>
             <v-btn color="primary" dark
