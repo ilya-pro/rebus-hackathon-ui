@@ -11,7 +11,7 @@
             <!--link-->
             <v-list-item
                     v-for="item in items"
-                    :key="item.title"
+                    :key="item.id"
                     :to="{ path: item.path}"
                      >
                 <v-list-item-icon>
@@ -44,13 +44,17 @@
 
     export default {
         name: "Drawer",
+        props: {
+            // пункты навигаии
+            items: Array
+        },
         data: () => ({
             // пункты навигаии
-            items: [
+            /*items: [
                 {id: 'account', title: 'Главная', icon: 'mdi-star', path: '/'},
                 {id: 'proposals', title: 'Предложения', icon: 'mdi-lightbulb', path: '/proposals'},
                 {id: 'account', title: 'Аккаунт', icon: 'mdi-account', path: '/account'}
-            ],
+            ],*/
         }),
         methods: {
             clickExit() {
