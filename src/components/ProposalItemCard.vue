@@ -27,7 +27,7 @@
         <span style="padding: 4px; border-radius: 6px; float: right; color: #000; background-color: rgb(215, 222, 233);" v-if="value.is_draft">Не опубликована</span>
       </div>
     </v-img>
-    <v-card-text>
+    <v-card-text v-if="value.status">
       <v-row>
         <v-col cols="12" md="6">{{ value.status.create }}</v-col>
         <v-col cols="12" md="6">

@@ -438,37 +438,34 @@ export default {
             realized: 41
           };
           // Подготовка данных для раздела "Предложения"
-          // TODO: Сделать запрос для получения предложений пользователя
-          this.proposals = [
-            {
-              id: 1,
-              title: "Корпоративу быть",
-              img: "https://visualart-tver.ru/wp-content/uploads/2019/01/IMG-20180401-WA0005.jpg",
-              answers: 24,
-              comments: 2,
-              likes: 10,
-              dislikes: 10,
-              status: {
-                create: "27.05.2020",
-                title: "Опубликована"
-              },
-              is_draft: false
-            },
-            {
-              id: 2,
-              title: "12 августа. Укрощаем бурные реки Карелии. Сплав на байдарках",
-              img: "https://rentakayak.ru/wp-content/uploads/2015/05/Prijon-Excursion.jpg",
-              answers: 0,
-              comments: 0,
-              likes: 0,
-              dislikes: 0,
-              status: {
-                create: "02.06.2020",
-                title: "Создана"
-              },
-              is_draft: true
-            }
-          ];
+          const owner_id = response.data.id;
+          const config = {
+            method: "get",
+            url: API_BASE_URL + "accelerator/tenders/?owner=" + owner_id,
+            headers: { Authorization: "Bearer " + this.$store.state.token }
+          };
+          axios(config)
+            .then(response => {
+              this.proposals = response.data.map(item => {
+                return {
+                  id: item.id,
+                  title: item.caption,
+                  img: item.presentation,
+                  answers: 1,
+                  comments: item.comment_count,
+                  likes: item.like_count,
+                  dislikes: item.dislike_count,
+                  status: {
+                    create: "02.06.2020",
+                    title: "Создана"
+                  },
+                  is_draft: item.status === "draft"
+                };
+              });
+            })
+            .catch(error => {
+              console.log(error);
+            });
           // Подготовка данных для раздела "Активность"
           // TODO: Сделать запрос для получения данных
           this.activities = [
