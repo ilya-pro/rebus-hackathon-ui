@@ -1,33 +1,44 @@
 <template>
   <v-card>
-    <v-toolbar flat color="primary" dark>
+    <v-toolbar flat>
       <v-toolbar-title>Профиль</v-toolbar-title>
     </v-toolbar>
     <!--token= {{ $store.state.token }}-->
     <v-tabs vertical>
-      <v-tab>Личная информация</v-tab>
-      <v-tab>Активность</v-tab>
-      <v-tab>Проекты</v-tab>
-      <v-tab>Уведомления</v-tab>
+      <v-tab class="justify-start" style="text-transform: none">Личная информация</v-tab>
+      <v-tab class="justify-start" style="text-transform: none">
+        <span>Активность</span>
+        <span style="float: right; color: orange">
+          <v-icon color="orange">mdi-star</v-icon>
+          {{ bonuses }}
+        </span>
+      </v-tab>
+      <v-tab class="justify-start" style="text-transform: none">Предложения</v-tab>
+      <v-tab class="justify-start" style="text-transform: none">Проекты</v-tab>
+      <v-tab class="justify-start" style="text-transform: none">Уведомления</v-tab>
       <v-tab-item>
-        <v-row align="start" justify="start" style="width: 1000px">
-          <v-col>
-            <v-card max-width="500" tile>
-              <v-avatar class="ma-3" size="164" tile>
-                <v-img :src="profile.avatar"></v-img>
-              </v-avatar>
-              <v-card-title>{{ profile.name }}</v-card-title>
+        <v-row align="start" justify="start">
+          <v-col cols="12" md="10">
+            <v-card class="pa-2" tile>
+              <v-card-text style="display: flex">
+                <v-avatar class="ma-3" size="164" :left="true" tile>
+                  <v-img :src="profile.avatar"></v-img>
+                </v-avatar>
+                <v-container>
+                  <h2 style="margin-bottom: 16px;">{{ profile.name }}</h2>
+                  <p>{{ profile.position }}</p>
+                  <p>{{ profile.division }}</p>
+                  <p>
+                    <v-icon>mdi-map-marker</v-icon>
+                    {{ profile.city }}
+                    <v-icon>mdi-cake-variant</v-icon>
+                    {{ profile.birthday }}
+                  </p>
+                </v-container>
+              </v-card-text>
               <v-card-text>
-                <p>{{ profile.position }}</p>
-                <p>{{ profile.division }}</p>
                 <p>
                   <b>Контактная информация</b>
-                </p>
-                <p>
-                  <v-icon>mdi-map-marker</v-icon>
-                  {{ profile.city }}
-                  <v-icon>mdi-cake-variant</v-icon>
-                  {{ profile.birthday }}
                 </p>
                 <p>
                   <v-icon>mdi-phone</v-icon>
@@ -64,10 +75,78 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col>
-            <v-card max-width="500" tile>
-              <v-card-title>Достижения</v-card-title>
-              <v-card-text>В разработке</v-card-text>
+          <v-col cols="12" md="2">
+            <v-card class="pa-2" color="rgba(215, 222, 233, 1)">
+              <v-card-text>
+                <h3 style="margin-bottom: 16px;">Достижения</h3>
+                <div>
+                  <v-row>
+                    <v-col cols="12" md="5">Рейтинг</v-col>
+                    <v-col cols="12" md="3">
+                      <v-progress-linear
+                        color="light-green"
+                        height="14"
+                        :value="raiting.current/raiting.next*100"
+                        striped
+                      ></v-progress-linear>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <span style="float: right">{{raiting.current}}/{{raiting.next}}</span>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div>
+                  Бонусы
+                  <span style="float: right">
+                    <v-icon color="orange">mdi-star</v-icon>
+                    {{ bonuses }}
+                  </span>
+                </div>
+                <v-divider style="margin: 16px 0px 16px 0px;"></v-divider>
+                <div>
+                  Генератор идей
+                  <span v-if="proposal.reward>0" style="float: right">
+                    <v-icon color="orange">mdi-medal</v-icon>
+                    {{ proposal.reward }} место
+                  </span>
+                </div>
+                <div style="padding-top: 4px;">
+                  {{ proposal.proposals }} предложения
+                  <span style="float: right">
+                    <v-icon>mdi-thumb-up-outline</v-icon>
+                    {{ proposal.comments}}
+                  </span>
+                </div>
+                <v-divider style="margin: 16px 0px 16px 0px;"></v-divider>
+                <div>Любимчик публики</div>
+                <div>
+                  {{ like.comments }} комментария
+                  <span style="float: right;">
+                    <v-icon color="green">mdi-thumb-up-outline</v-icon>
+                    {{ like.likes }}
+                  </span>
+                </div>
+                <v-divider style="margin: 16px 0px 16px 0px;"></v-divider>
+                <h3 style="margin-bottom: 16px;">Статистика</h3>
+                <div>
+                  Всего предложений
+                  <span style="float: right;">{{ stats.proposals }}</span>
+                </div>
+                <div>
+                  На модерации / публикации
+                  <span style="float: right;">{{ stats.moderations }}</span>
+                </div>
+                <div>
+                  Реализованные идеи
+                  <span style="float: right;">{{ stats.realized }}</span>
+                </div>
+                <v-progress-linear
+                  color="light-green"
+                  height="14"
+                  :rounded="true"
+                  :value="stats.realized/stats.proposals*100"
+                ></v-progress-linear>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -104,7 +183,8 @@
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        <v-card max-width="800" align="center">
+        <v-card align="center">
+          <v-card-title>История начисления и списания баллов</v-card-title>
           <v-card-text>
             <v-timeline>
               <v-container v-for="activity in activities" :key="activity.message">
@@ -148,6 +228,19 @@
       </v-tab-item>
       <v-tab-item>
         <v-card>
+          <v-card-title>Мои предложения</v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col v-for="proposal in proposals" :key="proposal.id" cols="12" md="4">
+                <ProposalItemCard :value="proposal" />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+
+      <v-tab-item>
+        <v-card>
           <v-card-title>
             Мои проекты
             <v-spacer></v-spacer>
@@ -177,10 +270,11 @@
 import axios from "axios";
 import Vue from "vue";
 import { API_BASE_URL } from "../utils/axios-helper";
+import ProposalItemCard from "../components/ProposalItemCard";
 
 export default {
   name: "Account",
-  components: {},
+  components: { ProposalItemCard },
   data() {
     return {
       profile: {
@@ -195,11 +289,36 @@ export default {
         city: ""
       },
       activities: [{ summary: 0, changed: 0, title: "" }],
-      rating: 0,
+      raiting: {
+        current: 0,
+        next: 0
+      },
+      bounses: 0,
+      proposal: {
+        reward: 0,
+        proposals: 0,
+        comments: 0
+      },
+      stats: {
+        proposals: 56,
+        moderations: 7,
+        realized: 41
+      },
+      like: {
+        comments: 32,
+        likes: 56
+      },
       editing: false,
       valid: false,
-      positions: [],
-      divisions: [],
+      // TODO: Подключиться к справочнику должностей
+      positions: ["Разработчик", "Кассир", "Экономист"],
+      // TODO: Подключиться к справочнику департаментов
+      divisions: [
+        "Департамент",
+        "Служба",
+        "Сектор развития цифровых продуктов"
+      ],
+      proposals: [],
       projectTable: {
         search: "",
         headers: [
@@ -274,43 +393,76 @@ export default {
     },
     getProfile() {
       const config = {
-        method: 'get',
-        url: API_BASE_URL + 'users/profile/',
-        headers: { 'Authorization': 'Bearer '+ this.$store.state.token }
-      }
-      //const filter = "";
-      //axios
-        //.get(API_BASE_URL + "users/profile/" + filter)
-        /*.request({
-          url: 'users/profile/',
-          method: 'get',
-          baseURL: API_BASE_URL,
-          headers: {
-            'Authorization': 'Bearer '+ this.$store.state.token
-          }
-        })*/
+        method: "get",
+        url: API_BASE_URL + "users/profile/",
+        headers: { Authorization: "Bearer " + this.$store.state.token }
+      };
       axios(config)
         .then(response => {
-          console.log("profile", response.data);
-          //     this.profile = response.data;
+          // console.log("profile", response.data);
           this.profile = {
-            //name: "Иванов Иван Иванович",
-            name: [response.data.last_name, response.data.first_name, response.data.patronymic].join(' '),
+            name: [
+              response.data.last_name,
+              response.data.first_name,
+              response.data.patronymic
+            ].join(" "),
             division: response.data.department,
             position: response.data.position,
             avatar: response.data.photo,
             email: response.data.email,
             phone: response.data.phone,
             workphone: response.data.internal_phone,
-            birthday: response.data.birthday,//"21.01.1990",
+            birthday: response.data.birthday,
             city: response.data.city
           };
-          this.rating = 4;
-          this.positions = ["Разработчик", "Кассир", "Экономист"];
-          this.divisions = [
-            "Департамент",
-            "Служба",
-            "Сектор развития цифровых продуктов"
+          this.raiting = {
+            current: 1040,
+            next: 1975
+          };
+          this.bonuses = 1200;
+          this.proposal = {
+            reward: 1,
+            proposals: 4,
+            comments: 1205
+          };
+          this.like = {
+            comments: 32,
+            likes: 56
+          };
+          this.stats = {
+            proposals: 56,
+            moderations: 7,
+            realized: 41
+          };
+          this.proposals = [
+            {
+              id: 1,
+              title: "Корпоративу быть",
+              img: "https://visualart-tver.ru/wp-content/uploads/2019/01/IMG-20180401-WA0005.jpg",
+              answers: 24,
+              comments: 2,
+              likes: 10,
+              dislikes: 10,
+              status: {
+                create: "27.05.2020",
+                title: "Опубликована"
+              },
+              is_draft: false
+            },
+            {
+              id: 2,
+              title: "12 августа. Укрощаем бурные реки Карелии. Сплав на байдарках",
+              img: "https://rentakayak.ru/wp-content/uploads/2015/05/Prijon-Excursion.jpg",
+              answers: 0,
+              comments: 0,
+              likes: 0,
+              dislikes: 0,
+              status: {
+                create: "02.06.2020",
+                title: "Создана"
+              },
+              is_draft: true
+            }
           ];
           this.activities = [
             {
