@@ -293,7 +293,7 @@ export default {
         current: 0,
         next: 0
       },
-      bounses: 0,
+      bonuses: 0,
       proposal: {
         reward: 0,
         proposals: 0,
