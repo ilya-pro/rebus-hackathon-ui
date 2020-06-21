@@ -293,7 +293,7 @@ export default {
         current: 0,
         next: 0
       },
-      bounses: 0,
+      bonuses: 0,
       proposal: {
         reward: 0,
         proposals: 0,
@@ -383,6 +383,7 @@ export default {
       });
     },
     goToProject(event) {
+      // Реализовать переход в карточку проекта
       console.log(event);
       Vue.notify({
         type: "error",
@@ -399,7 +400,7 @@ export default {
       };
       axios(config)
         .then(response => {
-          // console.log("profile", response.data);
+          // Получение и разбор личных данных (профиля)
           this.profile = {
             name: [
               response.data.last_name,
@@ -415,6 +416,8 @@ export default {
             birthday: response.data.birthday,
             city: response.data.city
           };
+          // Тесто вые данные, которые выводятся в блоке "Личные данные/Достижения"
+          // TODO: Сделать запрос на получение статистики и достижений пользователя
           this.raiting = {
             current: 1040,
             next: 1975
@@ -434,6 +437,8 @@ export default {
             moderations: 7,
             realized: 41
           };
+          // Подготовка данных для раздела "Предложения"
+          // TODO: Сделать запрос для получения предложений пользователя
           this.proposals = [
             {
               id: 1,
@@ -464,6 +469,8 @@ export default {
               is_draft: true
             }
           ];
+          // Подготовка данных для раздела "Активность"
+          // TODO: Сделать запрос для получения данных
           this.activities = [
             {
               summary: 200,
