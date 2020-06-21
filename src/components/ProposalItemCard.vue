@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :to="{ name: 'ProposalPage', params: { id: value.id }}">
     <v-img
       :src="value.img"
       class="white--text align-start"
