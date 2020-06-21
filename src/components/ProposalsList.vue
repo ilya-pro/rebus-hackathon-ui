@@ -1,6 +1,11 @@
 <template>
     <!--dense class="py-0" -->
-    <v-list
+    <v-row>
+        <v-col v-for="proposal in items" :key="proposal.id" cols="12" md="4">
+            <ProposalItemCard :value="proposal" />
+        </v-col>
+    </v-row>
+    <!--<v-list
             nav
              >
         <v-list-item
@@ -9,23 +14,36 @@
                 :to="{ name: 'ProposalPage', params: { id: item.id }}"
                 tile
         >
-            <v-card width="100%" tile>
+            &lt;!&ndash;<v-card width="100%" tile>
                 <v-list-item-title class="text-h5">{{ item.caption }}</v-list-item-title>
                 <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
 
                 </v-list-item-content>
-            </v-card>
+            </v-card>&ndash;&gt;
+            &lt;!&ndash;<v-row>
+                <v-col v-for="proposal in proposals" :key="proposal.id" cols="12" md="4">
+
+                </v-col>
+            </v-row>&ndash;&gt;
+            &lt;!&ndash;v-for="proposal in items" :key="proposal.id" cols="12" md="4"&ndash;&gt;
+            <v-row>
+                <v-col >
+                    <ProposalItemCard :value="item" />
+                </v-col>
+            </v-row>
         </v-list-item>
-    </v-list>
+    </v-list>-->
 </template>
 
 <script>
     import axios from "axios";
     import {API_BASE_URL} from "../utils/axios-helper";
+    import ProposalItemCard from "./ProposalItemCard";
 
     export default {
         name: "ProposalsList",
+        components: {ProposalItemCard},
         data: () => ({
             // пункты навигаии
             items: [
